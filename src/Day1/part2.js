@@ -1,6 +1,6 @@
 import { readFileSync } from "fs";
 
-let data = readFileSync("./Day1/input.txt");
+let data = readFileSync("./src/Day1/input.txt");
 let arr = data.toString().split("\r\n");
 
 let mostCals = [0, 0, 0];
@@ -13,19 +13,11 @@ for (let i = 0; i < arr.length; i++) {
             currCals += cals;
         }
         if (currCals > mostCals[2]) {
-            if (currCals > mostCals[1]) {
-                if (currCals > mostCals[0]) {
-                    mostCals.splice(0, 0, currCals);
-                    mostCals.pop();
-                } else {
-                    mostCals.splice(1, 0, currCals);
-                    mostCals.pop();
-                }
-            } else {
-                mostCals.splice(2, 0, currCals);
-                mostCals.pop();
-            }
+            mostCals.push(currCals);
+            mostCals.sort((a, b) => b - a);
+            mostCals.pop();
         }
+        
         currCals = 0;
     } else {
         currCals += cals;
