@@ -1,6 +1,6 @@
 import { readFileSync } from "fs";
 
-let data = readFileSync("./src/Day1/input.txt");
+let data = readFileSync("./src/Days/Day1/input.txt");
 let arr = data.toString().split("\r\n");
 
 let mostCals = [0, 0, 0];

@@ -26,7 +26,7 @@ inquirer.prompt([
 })
 
 function run(day, part) {
-    exec(`node ./src/Day${day}/part${part}.js`, (error, stdout, stderr) => {
+    exec(`node ./src/Days/Day${day}/part${part}.js`, (error, stdout, stderr) => {
         if (error == null) {
             let output = stdout.replace(/([\r\n])+/g, "");
             console.log(`Day ${day} Part ${part}: ${output}`);

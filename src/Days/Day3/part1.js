@@ -1,16 +1,16 @@
 import { readFileSync } from "fs";
 
-let data = readFileSync("./src/Day3/input.txt");
+let data = readFileSync("./src/Days/Day3/input.txt");
 let rucksacks = data.toString().split("\r\n");
 const alphabet = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
 let matchSum = 0;
 
-for (let i = 0; i < rucksacks.length; i+=3) {
-    const rucksackA = rucksacks[i];
-    const rucksackB = rucksacks[i+1];
-    const rucksackC = rucksacks[i+2];
+for (let i = 0; i < rucksacks.length; i++) {
+    const rucksack = rucksacks[i];
+    const compartmentA = rucksack.slice(0, rucksack.length/2);
+    const compartmentB = rucksack.slice(rucksack.length/2, rucksack.length);
 
-    let match = checkMatch(rucksackA, rucksackB, rucksackC);
+    let match = checkMatch(compartmentA, compartmentB);
     let sum = alphabet.indexOf(match.toLowerCase())+1;
     if (match == match.toUpperCase()) {
         sum += 26;
@@ -20,18 +20,13 @@ for (let i = 0; i < rucksacks.length; i+=3) {
 
 console.log(matchSum);
 
-function checkMatch(a, b, c) {
+function checkMatch(a, b) {
     for (let j = 0; j < a.length; j++) {
         const itemA = a[j];
         for (let k = 0; k < b.length; k++) {
             const itemB = b[k];
             if (itemA == itemB) {
-                for (let l = 0; l < c.length; l++) {
-                    const itemC = c[l];
-                    if (itemB == itemC) {
-                        return itemA;
-                    }
-                }
+                return itemA;
             }
         }
     }
