@@ -45,12 +45,12 @@ inquirer.prompt([
     let day = days.find(item => item.name == dayAnswer.day);
 
     if (day.parts.length == 0) {
-        console.error(chalk.red(`${dayName} does not contain any parts`));
+        console.error(chalk.red(`${dayName} does not contain any part files`));
         return;
     }
     
     if (!days.hasInput) {
-        console.error(chalk.red(`${dayName} does not contain any input file`));
+        console.error(chalk.red(`${dayName} does not contain an input file`));
         return;
     }
     
