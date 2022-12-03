@@ -1,4 +1,29 @@
 import { exec } from "child_process";
+import inquirer from "inquirer";
+
+inquirer.prompt([
+    {
+        type: "list",
+        message: "Pick a day:",
+        name: "day",
+        choices: ["Day 2", "Day 1"]
+    }
+])
+.then(dayAnswer => {
+    let day = parseInt(dayAnswer.day.replace(/\D/g,''));
+    inquirer.prompt([
+        {
+            type: "list",
+            message: "Pick a part:",
+            name: "part",
+            choices: ["Part 1", "Part 2"]
+        }
+    ])
+    .then(partAnswer => {
+        let part = parseInt(partAnswer.part.replace(/\D/g,''));
+        run(day, part);
+    })
+})
 
 function run(day, part) {
     exec(`node ./src/Day${day}/part${part}.js`, (error, stdout, stderr) => {
@@ -11,8 +36,3 @@ function run(day, part) {
         return (error != null) ? error.code : 0;
     })
 }
-
-run(1, 1);
-run(1, 2);
-run(2, 1);
-run(2, 2);
