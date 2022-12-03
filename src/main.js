@@ -6,7 +6,7 @@ inquirer.prompt([
         type: "list",
         message: "Pick a day:",
         name: "day",
-        choices: ["Day 2", "Day 1"]
+        choices: ["Day 3", "Day 2", "Day 1"]
     }
 ])
 .then(dayAnswer => {
