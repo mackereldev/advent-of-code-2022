@@ -1,38 +1,66 @@
+import { readdirSync } from "fs";
 import { exec } from "child_process";
 import inquirer from "inquirer";
+
+class Day {
+    name;
+    parts = [];
+    hasInput = false;
+}
+
+let days = [];
+
+const files = readdirSync("src/Days");
+for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    
+    let day = new Day();
+    day.name = file;
+
+    let content = readdirSync(`src/Days/${file}`);
+    if (content.includes("part1.js")) {
+        day.parts.push("part1.js");
+    }
+    if (content.includes("part2.js")) {
+        day.parts.push("part2.js");
+    }
+    if (content.includes("input.txt")) {
+        day.hasInput = true;
+    }
+
+    days.push(day);
+}
 
 inquirer.prompt([
     {
         type: "list",
         message: "Pick a day:",
         name: "day",
-        choices: ["Day 3", "Day 2", "Day 1"]
+        choices: days.map(item => item.name)
     }
 ])
 .then(dayAnswer => {
-    let day = parseInt(dayAnswer.day.replace(/\D/g,''));
+    let dayName = dayAnswer.day;
+    let day = days.find(item => item.name == dayAnswer.day);
+
     inquirer.prompt([
         {
             type: "list",
             message: "Pick a part:",
             name: "part",
-            choices: ["Part 1", "Part 2"]
+            choices: day.parts
         }
     ])
     .then(partAnswer => {
-        let part = parseInt(partAnswer.part.replace(/\D/g,''));
-        run(day, part);
+        let partName = partAnswer.part;
+        exec(`node ./src/Days/${dayName}/${partName}`, (error, stdout, stderr) => {
+            if (error == null) {
+                let output = stdout.replace(/([\r\n])+/g, "");
+                console.log(`${dayName} ${partName}: ${output}`);
+            } else {
+                console.warn(`An error occured: ${error.name} (${error.code})`);
+            }
+            return (error != null) ? error.code : 0;
+        })
     })
 })
-
-function run(day, part) {
-    exec(`node ./src/Days/Day${day}/part${part}.js`, (error, stdout, stderr) => {
-        if (error == null) {
-            let output = stdout.replace(/([\r\n])+/g, "");
-            console.log(`Day ${day} Part ${part}: ${output}`);
-        } else {
-            console.warn(`An error occured: ${error.name} (${error.code})`);
-        }
-        return (error != null) ? error.code : 0;
-    })
-}
