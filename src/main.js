@@ -43,6 +43,16 @@ inquirer.prompt([
     let dayName = dayAnswer.day;
     let day = days.find(item => item.name == dayAnswer.day);
 
+    if (day.parts.length == 0) {
+        console.error(`${dayName} does not contain any parts`);
+        return;
+    }
+    
+    if (!days.hasInput) {
+        console.error(`${dayName} does not contain any input file`);
+        return;
+    }
+    
     inquirer.prompt([
         {
             type: "list",
@@ -58,7 +68,7 @@ inquirer.prompt([
                 let output = stdout.replace(/([\r\n])+/g, "");
                 console.log(`${dayName} ${partName}: ${output}`);
             } else {
-                console.warn(`An error occured: ${error.name} (${error.code})`);
+                console.error(`An error occured: ${error.name} (${error.code})`);
             }
             return (error != null) ? error.code : 0;
         })
