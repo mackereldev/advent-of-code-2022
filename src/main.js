@@ -36,7 +36,7 @@ inquirer.prompt([
         type: "list",
         message: "Pick a day:",
         name: "day",
-        choices: days.map(item => item.name)
+        choices: days.map(item => item.name).sort((a, b) => a === b ? 0 : a > b ? -1 : 1)
     }
 ])
 .then(dayAnswer => {
@@ -48,7 +48,7 @@ inquirer.prompt([
             type: "list",
             message: "Pick a part:",
             name: "part",
-            choices: day.parts
+            choices: day.parts.sort((a, b) => a === b ? 0 : a < b ? -1 : 1)
         }
     ])
     .then(partAnswer => {
