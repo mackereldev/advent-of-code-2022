@@ -1,6 +1,7 @@
 import { readdirSync } from "fs";
 import { exec } from "child_process";
 import inquirer from "inquirer";
+import chalk from "chalk";
 
 class Day {
     name;
@@ -44,12 +45,12 @@ inquirer.prompt([
     let day = days.find(item => item.name == dayAnswer.day);
 
     if (day.parts.length == 0) {
-        console.error(`${dayName} does not contain any parts`);
+        console.error(chalk.red(`${dayName} does not contain any parts`));
         return;
     }
     
     if (!days.hasInput) {
-        console.error(`${dayName} does not contain any input file`);
+        console.error(chalk.red(`${dayName} does not contain any input file`));
         return;
     }
     
@@ -68,7 +69,7 @@ inquirer.prompt([
                 let output = stdout.replace(/([\r\n])+/g, "");
                 console.log(`${dayName} ${partName}: ${output}`);
             } else {
-                console.error(`An error occured: ${error.name} (${error.code})`);
+                console.error(chalk.red(`An error occured: ${error.name} (${error.code})`));
             }
             return (error != null) ? error.code : 0;
         })
