@@ -1,6 +1,8 @@
+import { fileURLToPath } from 'url';
+import { dirname } from "path";
 import { readFileSync } from "fs";
 
-let data = readFileSync("./src/Days/Day1/input.txt");
+let data = readFileSync(`${dirname(fileURLToPath(import.meta.url))}/input.txt`);
 let arr = data.toString().split("\r\n");
 
 let mostCals = 0;
