@@ -49,7 +49,7 @@ inquirer.prompt([
         return;
     }
     
-    if (!days.hasInput) {
+    if (!day.hasInput) {
         console.error(chalk.red(`${dayName} does not contain an input file`));
         return;
     }
