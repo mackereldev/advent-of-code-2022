@@ -2,8 +2,8 @@ import { fileURLToPath } from "url";
 import { dirname } from "path";
 import { readFileSync } from "fs";
 
-let data = readFileSync(`${dirname(fileURLToPath(import.meta.url))}/input.txt`);
-let rucksacks = data.toString().split("\r\n");
+const data = readFileSync(`${dirname(fileURLToPath(import.meta.url))}/input.txt`);
+const rucksacks = data.toString().split("\r\n");
 const alphabet = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
 let matchSum = 0;
 

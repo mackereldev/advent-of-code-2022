@@ -2,8 +2,8 @@ import { fileURLToPath } from "url";
 import { dirname } from "path";
 import { readFileSync } from "fs";
 
-let data = readFileSync(`${dirname(fileURLToPath(import.meta.url))}/input.txt`);
-let inventories = data.toString().split("\r\n\r\n").map(inv => inv.split(/\r\n+/g).map(item => parseInt(item)));
+const data = readFileSync(`${dirname(fileURLToPath(import.meta.url))}/input.txt`);
+const inventories = data.toString().split("\r\n\r\n").map(inv => inv.split(/\r\n+/g).map(item => parseInt(item)));
 
 let greatestTotals = [0, 0, 0];
 for (let i = 0; i < inventories.length; i++) {
