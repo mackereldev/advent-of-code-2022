@@ -3,45 +3,47 @@ import { dirname } from "path";
 import { readFileSync } from "fs";
 
 const data = readFileSync(`${dirname(fileURLToPath(import.meta.url))}/input.txt`);
-const instructions = data.toString().slice(data.indexOf("move")).split("\r\n");
-const initArr = data.toString().slice(0, data.indexOf("move")-3).split("\r\n");
+const lines = data.toString().split("\r\n"); // Get all lines from input
+const instructions = lines.slice(lines.indexOf("")+1); // Get instructions from input
+const suppliesData = lines.slice(0, lines.indexOf("")); // Get supplies from input (length == height)
+const stackCount = suppliesData[suppliesData.length-1].match(/\d+/g).length; // Get stack count from suppliesData (width)
+suppliesData.pop(); // Remove stack numbers
 
-const posLength = initArr[initArr.length-1].match(/\d+/g).length;
-
-let arrangement = new Array(posLength);
-for (let i = 0; i < posLength; i++) {
-    arrangement[i] = [];
+// Initialise an array of stacks
+let supplies = new Array(stackCount);
+for (let i = 0; i < stackCount; i++) {
+    supplies[i] = [];
 }
 
-for (let i = 0; i < initArr.length-1; i++) {
-    for (let j = 0; j < posLength; j++) {
-        let pos;
-        if (j == 0) {
-            pos = 1;
-        } else {
-            pos = j*4+1;
-        }
-        let item = initArr[i][pos];
+// Parse suppliesData to two dimensional array
+for (let i = 0; i < suppliesData.length; i++) {
+    const row = suppliesData[i];
+    for (let j = 0; j < stackCount; j++) {
+        let pos = j*4+1;
+        let item = row[pos];
         if (item != " ") {
-            arrangement[j][initArr.length-i-2] = item;
+            supplies[j][suppliesData.length-i-1] = item;
         }
     }
 }
 
+// Iterate over all instructions
 for (let i = 0; i < instructions.length; i++) {
-    const instruction = instructions[i];
-    const steps = parseInt(instruction.match(/move (\d+)/g)[0].match(/(\d+)/g)[0]);
-    const start = instruction.match(/from (\d+)/g)[0].match(/(\d+)/g)-1;
-    const end = instruction.match(/to (\d+)/g)[0].match(/(\d+)/g)-1;
+    // Extract variables from instructions
+    const nums = instructions[i].match(/\d+/g);
+    const count = nums[0];
+    const current = nums[1]-1;
+    const target = nums[2]-1;
 
-    arrangement[end].push(...arrangement[start].splice(arrangement[start].length-steps, steps));
+    // Move top {count} crates of stack {current} to stack {target}
+    supplies[target].push(...supplies[current].splice(supplies[current].length-count, count));
 }
 
+// List tops of all stacks
 let stackTops = "";
-
-for (let i = 0; i < arrangement.length; i++) {
-    const stack = arrangement[i];
-    stackTops+= stack[stack.length-1];
+for (let i = 0; i < supplies.length; i++) {
+    const stack = supplies[i];
+    stackTops += stack[stack.length-1];
 }
 
 console.log(stackTops);
