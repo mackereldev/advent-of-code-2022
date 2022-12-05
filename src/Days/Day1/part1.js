@@ -3,19 +3,13 @@ import { dirname } from "path";
 import { readFileSync } from "fs";
 
 let data = readFileSync(`${dirname(fileURLToPath(import.meta.url))}/input.txt`);
-let arr = data.toString().split("\r\n");
+let inventories = data.toString().split("\r\n\r\n").map(inv => inv.split(/\r\n+/g).map(item => parseInt(item)));
 
-let mostCals = 0;
-let currCals = 0;
-for (let i = 0; i < arr.length; i++) {
-    let cals = parseInt(arr[i]);
-    if (cals) {
-        currCals += cals;
-    } else {
-        if (currCals > mostCals) {
-            mostCals = currCals;
-        }
-        currCals = 0;
+let greatestTotal = 0;
+for (let i = 0; i < inventories.length; i++) {
+    let currentTotal = inventories[i].reduce((a, b) => a + b);
+    if (currentTotal > greatestTotal) {
+        greatestTotal = currentTotal;
     }
 }
-console.log(mostCals);
+console.log(greatestTotal);
