@@ -4,13 +4,9 @@ import { readFileSync } from "fs";
 
 const data = readFileSync(`${dirname(fileURLToPath(import.meta.url))}/input.txt`);
 const lines = data.toString().split("\r\n")
-let head = {x: 0, y: 0};
-let tails = new Array(9);
-let lastTailHistory = [{x: 0, y: 0}];
-
-for (let i = 0; i < tails.length; i++) {
-    tails[i] = {x: 0, y: 0};
-}
+let head = { x: 0, y: 0 };
+let tails = Array.from({ length: 9 }, () => ({ x: 0, y: 0 }));
+let lastTailHistory = [{ x: 0, y: 0 }];
 
 for (let i = 0; i < lines.length; i++) {
     const instructions = lines[i].split(" ");
@@ -29,12 +25,13 @@ for (let i = 0; i < lines.length; i++) {
         }
 
         followHead(head, tails[0]);
-        for (let i = 0; i < tails.length-1; i++) {
-            followHead(tails[i], tails[i+1]);
+        for (let i = 0; i < tails.length - 1; i++) {
+            followHead(tails[i], tails[i + 1]);
         }
 
-        if (!lastTailHistory.some(item => item.x == tails.at(-1).x && item.y == tails.at(-1).y)) {
-            lastTailHistory.push({x: tails.at(-1).x, y: tails.at(-1).y});
+        const lastTail = tails.at(-1);
+        if (!lastTailHistory.some(item => item.x == lastTail.x && item.y == lastTail.y)) {
+            lastTailHistory.push({ x: lastTail.x, y: lastTail.y });
         }
     }
 }
