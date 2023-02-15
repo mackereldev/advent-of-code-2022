@@ -3,7 +3,7 @@ import { dirname } from "path";
 import { readFileSync } from "fs";
 
 const data = readFileSync(`${dirname(fileURLToPath(import.meta.url))}/input.txt`);
-const rounds = data.toString().split("\r\n");
+const rounds = data.toString().split(/\r?\n|\r|\n/g);
 
 let totalScore = 0;
 for (let i = 0; i < rounds.length; i++) {

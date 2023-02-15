@@ -4,7 +4,7 @@ import { readFileSync } from "fs";
 import lodash from "lodash";
 
 const data = readFileSync(`${dirname(fileURLToPath(import.meta.url))}/input.txt`);
-const lines = data.toString().split("\r\n")
+const lines = data.toString().split(/\r?\n|\r|\n/g)
 
 let tree = {_size: 0};
 let location = [];

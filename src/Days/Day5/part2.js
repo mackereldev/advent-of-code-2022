@@ -3,7 +3,7 @@ import { dirname } from "path";
 import { readFileSync } from "fs";
 
 const data = readFileSync(`${dirname(fileURLToPath(import.meta.url))}/input.txt`);
-const lines = data.toString().split("\r\n"); // Get all lines from input
+const lines = data.toString().split(/\r?\n|\r|\n/g); // Get all lines from input
 const instructions = lines.slice(lines.indexOf("")+1); // Get instructions from input
 const suppliesData = lines.slice(0, lines.indexOf("")); // Get supplies from input (length == height)
 const stackCount = suppliesData[suppliesData.length-1].match(/\d+/g).length; // Get stack count from suppliesData (width)
