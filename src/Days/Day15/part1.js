@@ -9,8 +9,8 @@ let pairs = [];
 
 for (let i = 0; i < lines.length; i++) {
     const pairRaw = lines[i].split(":");
-    const sensor = pairRaw[0].match(/\d+/g).map((item) => parseInt(item));
-    const beacon = pairRaw[1].match(/\d+/g).map((item) => parseInt(item));
+    const sensor = pairRaw[0].match(/-?\d+/g).map((item) => parseInt(item));
+    const beacon = pairRaw[1].match(/-?\d+/g).map((item) => parseInt(item));
     pairs.push([sensor, beacon]);
 }
 
