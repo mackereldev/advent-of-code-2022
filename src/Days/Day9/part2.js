@@ -3,7 +3,7 @@ import { dirname } from "path";
 import { readFileSync } from "fs";
 
 const data = readFileSync(`${dirname(fileURLToPath(import.meta.url))}/input.txt`);
-const lines = data.toString().split("\r\n")
+const lines = data.toString().split(/\r?\n|\r|\n/g)
 let head = { x: 0, y: 0 };
 let tails = Array.from({ length: 9 }, () => ({ x: 0, y: 0 }));
 let lastTailHistory = [{ x: 0, y: 0 }];

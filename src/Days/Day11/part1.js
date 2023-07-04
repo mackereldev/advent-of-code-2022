@@ -3,7 +3,7 @@ import { dirname } from "path";
 import { readFileSync } from "fs";
 
 const data = readFileSync(`${dirname(fileURLToPath(import.meta.url))}/input.txt`);
-const lines = data.toString().split("\r\n");
+const lines = data.toString().split(/\r?\n|\r|\n/g);
 
 const rounds = 20;
 
